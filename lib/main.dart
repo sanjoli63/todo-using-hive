@@ -96,11 +96,55 @@ class _MyHomePageState extends State<MyHomePage> {
                       .cast<int>()
                       .where((key) => todos.get(key)!.iscompleted)
                       .toList();
+                  if (keys.isEmpty) {
+                    return LayoutBuilder(builder: (ctx, constraints) {
+                      return Column(
+                        children: <Widget>[
+                          Text(
+                            'You have not completed any tasks',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 20),
+                          ),
+                          const SizedBox(
+                            height: 30,
+                          ),
+                          Container(
+                              height: constraints.maxHeight * 0.5,
+                              child: SvgPicture.asset(
+                                'assets/undraw_Done_checking_re_6vyx.svg',
+                                fit: BoxFit.cover,
+                              )),
+                        ],
+                      );
+                    });
+                  }
                 } else {
                   keys = todos.keys
                       .cast<int>()
                       .where((key) => !todos.get(key)!.iscompleted)
                       .toList();
+                  if (keys.isEmpty) {
+                    return LayoutBuilder(builder: (ctx, constraints) {
+                      return Column(
+                        children: <Widget>[
+                          Text(
+                            'All tasks are completed',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 20),
+                          ),
+                          const SizedBox(
+                            height: 30,
+                          ),
+                          Container(
+                              height: constraints.maxHeight * 0.4,
+                              child: SvgPicture.asset(
+                                'assets/undraw_happy_feeling_slmw.svg',
+                                fit: BoxFit.cover,
+                              )),
+                        ],
+                      );
+                    });
+                  }
                 }
                 return todos.isEmpty
                     ? LayoutBuilder(builder: (ctx, constraints) {

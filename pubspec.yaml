@@ -53,6 +53,8 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/undraw_To_do_list_re_9nt7.svg
+    - assets/undraw_happy_feeling_slmw.svg
+    - assets/undraw_Done_checking_re_6vyx.svg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 
