@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:hive/hive.dart';
 import 'todo_model.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 const String todoBoxName = "todo";
 void main() async {
@@ -65,6 +66,65 @@ class _MyHomePageState extends State<MyHomePage> {
           )
         ],
         title: Text("Hive Todo"),
+      ),
+      body: Column(
+        children: <Widget>[
+          Expanded(
+            child: ValueListenableBuilder(
+              valueListenable: todoBox!.listenable(),
+              builder: (context, Box<TodoModel> todos, _) {
+                List<int> keys = todos.keys.cast<int>().toList();
+                return ListView.separated(
+                  itemBuilder: (_, index) {
+                    final int key = keys[index];
+                    final TodoModel? todo = todos.get(key);
+                    return ListTile(
+                      title: Text(
+                        todo!.title,
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 20),
+                      ),
+                      subtitle: Text(
+                        todo.detail,
+                        style: TextStyle(fontSize: 16),
+                      ),
+                      leading: Text("$key"),
+                      trailing: Icon(Icons.check,
+                          color: todo.iscompleted ? Colors.green : Colors.red),
+                      onTap: () {
+                        showDialog(
+                            context: context,
+                            builder: (context) {
+                              return Dialog(
+                                child: Container(
+                                  padding: EdgeInsets.all(16),
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: <Widget>[
+                                      TextButton(
+                                        child: Text('Mark AS Completed'),
+                                        onPressed: () {
+                                          TodoModel mTodo = TodoModel(
+                                              todo.title, todo.detail, true);
+                                          todoBox!.put(key, mTodo);
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            });
+                      },
+                    );
+                  },
+                  separatorBuilder: (_, index) => Divider(),
+                  itemCount: keys.length,
+                  shrinkWrap: true,
+                );
+              },
+            ),
+          ),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
           child: Icon(Icons.add),
