@@ -44,7 +44,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     todoBox = Hive.box<TodoModel>(todoBoxName);
   }
@@ -303,6 +302,8 @@ class _MyHomePageState extends State<MyHomePage> {
                               TodoModel todo = TodoModel(title, detail, false);
                               todoBox!.add(todo);
                               Navigator.pop(context);
+                              titleController.clear();
+                              detailController.clear();
                             },
                           ),
                         ],
